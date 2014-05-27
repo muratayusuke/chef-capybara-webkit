@@ -1,10 +1,6 @@
-FROM tianon/centos:5.8
+FROM muratayusuke/centos5.8:chef-solo-berks
 
 ENV LANG C.UTF-8
-
-# install chef
-RUN yum -y install curl
-RUN curl -L https://www.opscode.com/chef/install.sh | bash
 
 # run chef-solo
 RUN mkdir -p /tmp/capybara-webkit
@@ -17,3 +13,6 @@ ADD ./install_cmds.sh /tmp/capybara-webkit/install_cmds.sh
 ADD ./metadata.rb /tmp/capybara-webkit/metadata.rb
 ADD ./README.md /tmp/capybara-webkit/README.md
 RUN /tmp/capybara-webkit/install_cmds.sh
+
+# install test
+RUN NOKOGIRI_USE_SYSTEM_LIBRARIES=1 /opt/chef/embedded/bin/gem install capybara-webkit
